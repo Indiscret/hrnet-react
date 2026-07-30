@@ -1,11 +1,14 @@
 import { useState } from "react";
+import { useDispatch } from "react-redux";
 import InputField from "../components/InputField";
 import SelectField from "../components/SelectField";
 import states from "../data/states";
 import departments from "../data/departments";
 import DateField from "../components/DateField";
+import { addEmployee } from "../store/employeeSlice";
 
 function CreateEmployee() {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
@@ -27,10 +30,29 @@ function CreateEmployee() {
         }));
     }
 
+    function handleSubmit(event) {
+        event.preventDefault();
+        dispatch(addEmployee({...formData,
+            dateOfBirth: formData.dateOfBirth?.toLocaleDateString(),
+            startDate: formData.startDate?.toLocaleDateString(),
+        }));
+        setFormData({
+            firstName: "",
+            lastName: "",
+            street: "",
+            city: "",
+            zipCode: "",
+            state: "",
+            department: "",
+            dateOfBirth: null,
+            startDate: null,
+        });
+    }
+
     return (
         <main>
             <h1>Create Employee</h1>
-            <form>
+            <form onSubmit={handleSubmit}>
                 <InputField
                     label="First Name"
                     id="firstName"
@@ -57,7 +79,7 @@ function CreateEmployee() {
                 />
                 <InputField
                     label="Zip Code"
-                    id="zipcode"
+                    id="zipCode"
                     type="number"
                     value={formData.zipCode}
                     onChange={handleChange}
