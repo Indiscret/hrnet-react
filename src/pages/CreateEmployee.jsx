@@ -6,6 +6,7 @@ import states from "../data/states";
 import departments from "../data/departments";
 import DateField from "../components/DateField";
 import { addEmployee } from "../store/employeeSlice";
+import { Link } from "react-router-dom";
 
 function CreateEmployee() {
     const dispatch = useDispatch();
@@ -52,6 +53,9 @@ function CreateEmployee() {
     return (
         <main>
             <h1>Create Employee</h1>
+            <Link to="/employees">
+            View Current Employees
+            </Link>
             <form onSubmit={handleSubmit}>
                 <InputField
                     label="First Name"
